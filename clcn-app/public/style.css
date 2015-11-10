@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+div,
+span {
+    margin: 0;
+    padding: 0;
+}
+
+quote {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    top: 30%;
+}
+
+.carousel {
+    position: relative;
+    max-height: 300px;
+    overflow: auto;
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    background: #eee;
+}
+
+.quote {
+    font: 1.4em 'helvetica-neue', 'Helvetica Neue', Helvetica, Arial;
+    position: relative;
+    float: left;
+    width: 100%;
+    color: #555;
+}
+
+.quote p {
+    line-height: 1.2;
+    position: relative;
+    float: left;
+    width: 80%;
+    margin: 0 70px;
+    padding: 20px 0;
+    border-left: 4px solid #999;
+}
+
+.controls {
+    position: relative;
+    overflow: hidden;
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    top: 40%;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px;
+    background: #999;
+    color: #222;
+    border-radius: 2px;
+    text-decoration: none;
+    font: 1em 'helvetica-neue', 'Helvetica Neue', Helvetica, Arial;
+    color: #fff;
+}
+
+.button-stop {
+    background: #e84832;
+    margin-left: 30px;
+}
+
+.button-stop:hover {
+    background: #b93928;
+}
+
+.button-stop:active {
+    background: #e84832;
+}

@@ -7,9 +7,11 @@ apiUrl = 'http://localhost:8000/inspiration';
 Observable = Rx.Observable;
 
 reactiveInspiration = Observable.create((observer) => {
+    console.log("Sending request.");
     superagent
         .get(apiUrl)
         .end((err, res) => {
+            console.log('Got response');
             if (err) {
                 return observer.onError(err);
             }
@@ -29,15 +31,15 @@ reactiveInspiration = Observable.create((observer) => {
         });
 });
 
-reactiveInspiration
-    .subscribe(
-        (inspiration) => {
-            console.log('Get inspired: ', inspiration);
-        },
-        (err) => {
-            console.log('Error while getting inspired', err);
-        },
-        () => {
-            console.log('Done getting inspired!');
-        }
-    );
+// reactiveInspiration
+//     .subscribe(
+//         (inspiration) => {
+//             console.log('Get inspired: ', inspiration);
+//         },
+//         (err) => {
+//             console.log('Error while getting inspired', err);
+//         },
+//         () => {
+//             console.log('Done getting inspired!');
+//         }
+//     );

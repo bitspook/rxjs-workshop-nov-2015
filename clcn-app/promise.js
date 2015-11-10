@@ -5,9 +5,11 @@ let apiUrl,
 apiUrl = 'http://localhost:8000/inspiration';
 
 promiscuousInspiration = new Promise((resolve, reject) => {
+    console.log('Sending request.');
     superagent
         .get(apiUrl)
         .end((err, res) => {
+            console.log('Got response');
             if (err) {
                 return reject(err);
             }
@@ -19,9 +21,9 @@ promiscuousInspiration = new Promise((resolve, reject) => {
         });
 });
 
-promiscuousInspiration
-    .then((inspiration) => {
-        console.log('Get Inspired: ', inspiration);
-    }, (err) => {
-        console.error('Error occurred while getting inspiration.', err);
-    });
+// promiscuousInspiration
+//     .then((inspiration) => {
+//         console.log('Get Inspired: ', inspiration);
+//     }, (err) => {
+//         console.error('Error occurred while getting inspiration.', err);
+//     });

@@ -20,6 +20,12 @@ reactiveInspiration = Observable.create((observer) => {
 
             observer.onNext(inspiration);
             observer.onCompleted();
+
+            // Dispose function which is guaranteed to get called when Observable stops.
+            // All resource-freeing work shall be done in here.
+            return () => {
+                console.log('Release the Kraken!');
+            };
         });
 });
 

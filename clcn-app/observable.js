@@ -19,27 +19,31 @@ inspireHTML = (parentId) => (inspiration) => {
 };
 
 reactiveInspiration = Observable.create((observer) => {
-    superagent
-        .get(apiUrl)
-        .end((err, res) => {
-            if (err) {
-                return observer.onError(err);
-            }
+    let interval;
 
-            let inspiration;
+    interval = setInterval(() => {
+        superagent
+            .get(apiUrl)
+            .end((err, res) => {
+                if (err) {
+                    return observer.onError(err);
+                }
 
-            inspiration = JSON.parse(res.text).joke;
+                let inspiration;
 
-            observer.onNext(inspiration);
-            observer.onCompleted();
+                inspiration = JSON.parse(res.text).joke;
 
-            return () => {
-                console.log('Release the Kraken!');
-            };
-        });
+                observer.onNext(inspiration);
+            });
+    }, 1000);
+
+    return () => {
+        clearInterval(interval);
+    };
 });
 
 reactiveInspiration
+    .take(10)
     .subscribe(
         inspireHTML('inspiration'),
         (err) => {

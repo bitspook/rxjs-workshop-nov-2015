@@ -1,11 +1,14 @@
 /* global superagent, Rx */
 let apiUrl,
-    addNInspirations,
     addPromiscuousInspiration,
+    getPromiscuousInspiration,
     inspireHTML,
-    getPromiscuousInspiration;
+    startGettingInspired,
+    stopButton,
+    stopGettingInspired;
 
 apiUrl = 'http://localhost:8000/inspiration';
+stopButton = document.getElementById('stop');
 
 inspireHTML = (parentId) => (inspiration) => {
     let parentNode,
@@ -42,25 +45,19 @@ addPromiscuousInspiration = (promiscuousInspiration) => {
             });
 };
 
-addNInspirations = (n) => {
-    let count,
-        interval,
-        maxCount;
-
-    maxCount = n;
-    count = 1;
-
-    interval = setInterval(() => {
+startGettingInspired = () => {
+    return setInterval(() => {
         addPromiscuousInspiration(
             getPromiscuousInspiration()
         );
-
-        if (count < maxCount) {
-            count++;
-        } else {
-            clearInterval(interval);
-        }
     }, 1000);
 };
 
-addNInspirations(10);
+stopGettingInspired = (interval) => (e) => {
+    e.preventDefault();
+    stopButton.removeEventListener(stopGettingInspired(interval));
+
+    clearInterval(interval);
+};
+
+stopButton.addEventListener('click', stopGettingInspired(startGettingInspired()));

@@ -2,10 +2,13 @@
 let Observable,
     apiUrl,
     inspireHTML,
-    reactiveInspiration;
+    reactiveInspiration_,
+    stopButton,
+    stopInspiration_;
 
 apiUrl = 'http://localhost:8000/inspiration';
 Observable = Rx.Observable;
+stopButton = document.getElementById('stop');
 
 inspireHTML = (parentId) => (inspiration) => {
     let parentNode,
@@ -18,7 +21,7 @@ inspireHTML = (parentId) => (inspiration) => {
     parentNode.insertBefore(inspirationalNode, parentNode.firstChild);
 };
 
-reactiveInspiration = Observable.create((observer) => {
+reactiveInspiration_ = Observable.create((observer) => {
     let interval;
 
     interval = setInterval(() => {
@@ -41,9 +44,10 @@ reactiveInspiration = Observable.create((observer) => {
         clearInterval(interval);
     };
 });
+stopInspiration_ = Observable.fromEvent(stopButton, 'click').do(e => e.preventDefault());
 
-reactiveInspiration
-    .take(10)
+reactiveInspiration_
+    .takeUntil(stopInspiration_)
     .subscribe(
         inspireHTML('inspiration'),
         (err) => {

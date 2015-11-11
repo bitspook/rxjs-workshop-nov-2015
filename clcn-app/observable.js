@@ -1,6 +1,7 @@
 /* global superagent, Rx */
 let Observable,
     apiUrl,
+    getPromiscuousInspiration,
     inspireHTML,
     reactiveInspiration_,
     stopButton,
@@ -21,33 +22,29 @@ inspireHTML = (parentId) => (inspiration) => {
     parentNode.insertBefore(inspirationalNode, parentNode.firstChild);
 };
 
-reactiveInspiration_ = Observable.create((observer) => {
-    let interval;
+getPromiscuousInspiration = () => new Promise((resolve, reject) => {
+    superagent
+        .get(apiUrl)
+        .end((err, res) => {
+            if (err) {
+                return reject(err);
+            }
 
-    interval = setInterval(() => {
-        superagent
-            .get(apiUrl)
-            .end((err, res) => {
-                if (err) {
-                    return observer.onError(err);
-                }
+            let inspiration;
 
-                let inspiration;
-
-                inspiration = JSON.parse(res.text).joke;
-
-                observer.onNext(inspiration);
-            });
-    }, 1000);
-
-    return () => {
-        clearInterval(interval);
-    };
+            inspiration = JSON.parse(res.text).joke;
+            return resolve(inspiration);
+        });
 });
+
 stopInspiration_ = Observable.fromEvent(stopButton, 'click').do(e => e.preventDefault());
 
+reactiveInspiration_ = Observable
+    .interval(1000)
+    .flatMap(getPromiscuousInspiration)
+    .takeUntil(stopInspiration_);
+
 reactiveInspiration_
-    .takeUntil(stopInspiration_)
     .subscribe(
         inspireHTML('inspiration'),
         (err) => {

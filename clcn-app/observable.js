@@ -1,1 +1,1 @@
-/* global superagent, Rx */
+(() => console.log('Observable'))();

@@ -1,8 +1,8 @@
 {
-  "name": "jschannel-rxjs-workshop-nov-2015",
-  "version": "1.0.0",
+  "name": "clcn-app",
+  "version": "0.1.0",
   "scripts": {
-    "clcn-app": "./node_modules/.bin/nodemon ./clcn-app/server.js --exec babel-node"
+    "start": "./node_modules/.bin/nodemon ./server.js --exec babel-node"
   },
   "author": "ckhabra@gmail.com (https://channikhabra.github.io/)",
   "license": "MIT",

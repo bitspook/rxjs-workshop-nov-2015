@@ -1,0 +1,30 @@
+{{{header}}}
+
+<h1 class="page-title post-title">
+    <div class="page-title__text post-title__text">{{ siteTitle }}</div>
+</h1>
+
+<div class="content">
+    <ul class="list-posts">
+        {{# posts }}
+
+        <li class="post-teaser">
+            <a href="{{ link }}">
+                <span class="post-teaser__title">{{ title }}</span>
+                <span class="post-teaser__date">{{ date }}</span>
+            </a>
+        </li>
+
+        {{/ posts }}
+
+    </ul>
+</div>
+
+<div class="about">
+    <div class="about__devider">*****</div>
+    <div class="about__text">
+        &copy; <strong> {{ author }}</strong>
+    </div>
+</div>
+
+{{{footer}}}

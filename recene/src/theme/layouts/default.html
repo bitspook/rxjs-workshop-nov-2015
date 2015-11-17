@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        {{#title}}
+        <title>{{title}}</title>
+        {{/title}}
+
+        {{^title}}
+        <title>Blog</title>
+        {{/title}}
+
+        <link href="/css/normalize.css" rel="stylesheet"/>
+        <link href="/css/main.css" rel="stylesheet"/>
+    </head>
+    <body>
+        {{{content}}}
+    </body>
+</html>

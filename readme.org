@@ -1,36 +1,38 @@
 * RxJS Workshop
+** Prerequisites
 
-This workshop will be a "gentle introduction" to the world of Reactive Functional programming. We'll be using the awesome [[https://github.com/Reactive-Extensions/RxJS/][RxJS library]]. I believe it is not possible (for everyone) to learn something completely new in one sitting. Workshops are great at introducing concepts, converting some hearts, lighting some bulbs. But they shall not aim to teach something in its entirety.
+- Familiarity with ES6 syntax
+  - Fat Arrow functions
+  - Export/import module syntax
+  - Destructuring assignment
+  - Object.assign
 
-By the end of this workshop you'll not be knowing everything you need to know about Reactive Programming, neither you'll be ready to go home and convert all your projects to Rx. By the end of this workshop however, you'll know what Rx is, why it is getting all the attention it is getting, and how you can utilize its power in your own existing and new projects. You'll no longer be afraid of the buzz words like Reactive Programming, Observables etc. If I can pull it off well, you'll go home with wild dreams and thoughts of kinky things you wanna do with your javascript code.
+- Familiarity with Array extras
+  - map
+  - filter
+  - reduce
 
-Reactive (Functional) Programming is different from what most of us are used to. If you're not well acquainted with basic functional programming in Javascript, it might come up as string theory to your creationism. I have tried introducing Reactive Programming with talks and presentation before, it doesn't work as well as I want it to. Many a times I fear it might come up as something confusing and/or difficult. That is what I want to clear in this workshop. Reactive Programming is not difficult, and it is anything but confusing.
+- Familiarity with basic functional programming in javascript other than Array extras
+  - Currying
 
-So the answer to "Why workshop?" is that Reactive Programming is different enough that most people don't get the feels when they're shown reactive code like a movie. I this workshop I'll try to introduce it like a sim-game, with little non-fatal involvement from each participant.
+    Nothing complicated, just be able to answer:
 
-This workshop is divided in 3 phases.
-- In first phase, we'll build a ridiculously simple example and get to know the core character of RxJS
-- In second phase we'll get real and build something of real value
-- We don't really need the third phase, but we'll do a small angular2 app just to get your lazy-ass' attention. We'll see how angular2 uses RxJS as an important piece of its shit-ass magical crap.
+    Why would we do this?
 
-* Phase 1 - RxJS Observable for Promise users
-** Outline
-- Show how observable can be used in places where you might be using Promises now
-- We create a "Code like Chuck Norris" app, which shows inspirational quotes from the time when Chuck Norris wrote code
-- App is written in 2 parallel code-bases (just 2 files really), one using promises and other using Observables
-- First we'll learn how to create and use Rx Observables in comparison to Promises, and will get the app running
-- Then we'll work with various aspects of Observables like interoperability with other data sources, composability, cancle-ability etc
-- At the end of the tutorial, we'll have 2 code bases for head-to-head comparison of Promise vs Observable code
-** CodeLikeChuckNorris app
- - simple app which show quotes from Chuck Norris using http://www.icndb.com
-* Phase 2 - Building "Welcome" script for JsChanne's "Howdy Rathore" slack bot
-In this part we'll build a script for Howdy Rathore slack bot we have on JsChannel's slack. This script will say Hello to all new members on JsChannel's slack.
-* Creating a pseudo-React(ish) framework with RxJS and Virtual-DOM
-It's a tinsy bit advanced and might not be coverable in 2 posts. I already have a tutorial which goes parallel to this one: github.com/channikhabra/yarr. Chapter 3 and 4 would make one part of this pseudo-framework after some refactoring, second part would be written from scratch.
-* Angular 2
-- https://github.com/angular-class/awesome-angular2
+    #+begin_src javascript
+    let func;
 
-* How to follow
+    func = (a) => (b) => a + b;
+    #+end_src
+
+- Basic understanding of how ES6 Promises work, and why we need/use them.
+
+  PS If you use promises in your everyday javascript, you're awesome. Also, you're hereby granted the right to mock the person sitting next to you who don't yet use Promises.
+
+- A slightly open mind. Few centimeters would do
+
+- Acceptance of mild profanity
+
 ** Seting up your machine
 - Clone this repository on your machine
 
@@ -42,23 +44,110 @@ It's a tinsy bit advanced and might not be coverable in 2 posts. I already have 
 - Install npm dependencies
 
   #+begin_src bash
+  cd ./clcn-app
+  npm install ./
+
+  cd ..
+  cd recene
   npm install ./
   #+end_src
 
 - Install ~babel-cli~
 
   #+begin_src bash
-  npm install babel-cli
+  npm install -g babel-cli
   #+end_src
 
-** Phase 1 : Code-Like-Chuck-Norris app
+- Install ~node-static~
+
+  #+begin_src bash
+  npm install -g node-static
+  #+end_src
+
+** How to follow
+
+*** Code-Like-Chuck-Norris app
 - In your terminal, execute this command to start clcn server
 
   #+begin_src bash
-  npm run clcn-app
+  cd clcn-app
+  npm start
   #+end_src
 
 - Open two tabs in your favorite browser, or Chrome: http://localhost:8000/promise and http://localhost:8000/unicorn-in-the-room
   And open browser consoles in both.
 
 - Open ~./clcn-app/promise.js~ and ~./clcn-app/observable.js~ in your editor of choice. Changes in these files will be reflected in the two urls you opened in your browser earlier.
+
+*** Recene
+- In your terminal, cd to test blog directory
+
+  #+begin_src bash
+  cd ./recene/tests/dummy_site
+  #+end_src
+
+- To execute recene, use babel-node
+
+  #+begin_src bash
+  babel-node ../../src/index.js
+  #+end_src
+
+** Contents of the workshop
+
+This workshop will be a "gentle introduction" to the world of Reactive Functional programming. We'll be using the awesome [[https://github.com/Reactive-Extensions/RxJS/][RxJS library]]. I believe it is not possible (for everyone) to learn something completely new in one sitting. Workshops are great at introducing concepts, converting some hearts, lighting some bulbs. But they shall not aim to teach something in its entirety.
+
+By the end of this workshop you'll not be knowing everything you need to know about Reactive Programming, neither you'll be ready to go home and convert all your projects to Rx. By the end of this workshop however, you'll know what Rx is, why it is getting all the attention it is getting, and how you can utilize its power in your own existing and new projects. You'll no longer be afraid of the buzz words like Reactive Programming, Observables etc. If I can pull it off well, you'll go home with wild dreams and thoughts of kinky things you wanna do with your javascript code.
+
+Reactive (Functional) Programming is different from what most of us are used to. If you're not well acquainted with basic functional programming in Javascript, it might come up as string theory to your creationism. I have tried introducing Reactive Programming with talks and presentation before, it doesn't work as well as I want it to. Many a times I fear it might come up as something confusing and/or difficult. That is what I want to clear in this workshop. Reactive Programming is not difficult, and it is anything but confusing.
+
+So the answer to "Why workshop?" is that Reactive Programming is different enough that most people don't get the feels when they're shown reactive code like a movie. I this workshop I'll try to introduce it like a sim-game, with little non-fatal involvement from each participant.
+
+This workshop is divided in 2 phases.
+- In first phase, we'll build a ridiculously simple example and get to know the core character of RxJS
+- In second phase we'll get real and build something relatively real (an albeit bad static site generator). The purpose will still be to demonstrate how to use RxJS. We'll hit every nail we'ell see in there with the Rx hammer just for the heck of it.
+
+** Phase 1 - RxJS Observable for Promise users
+
+*** Outline
+
+- Show how observable can be used in places where you might be using Promises now
+
+- We create a "Code like Chuck Norris" app, which shows inspirational quotes from the time when Chuck Norris wrote code
+
+- App is written in 2 parallel code-bases (just 2 files really), one using promises and other using Observables
+
+- First we'll learn how to create and use Rx Observables in comparison to Promises, and will get the app running
+
+- Then we'll work with various aspects of Observables like interoperability with other data sources, composability, cancle-ability etc
+
+- At the end of the tutorial, we'll have 2 code bases for head-to-head comparison of Promise vs Observable code
+
+*** CodeLikeChuckNorris app
+
+ - simple app which show quotes from Chuck Norris using http://www.icndb.com
+
+** Phase 2 - Recene : The static site generator
+
+- [ ] Read the config
+
+- [ ] List files in the posts dir
+
+- [ ] Parse post level config from file-name
+
+- [ ] Read markdown files from posts dir
+
+- [ ] Parse post level config from markdown files
+
+- [ ] Convert markdown to HTML
+
+- [ ] Apply post html to site theme
+
+- [ ] Delete existing public dir
+
+- [ ] Recreate empty public dir
+
+- [ ] Copy theme's CSS over to dest dir
+
+- [ ] Write final HTML to files
+
+- [ ] Create index page

@@ -1,0 +1,17 @@
+* Functional programmer test
+
+#+BEGIN_QUOTE
+There are no silver bullets
+#+END_QUOTE
+
+A functional programmer can disprove this statement without assuming any context, and prove it too.
+
+1. Since this statement assume no context, it must be universal, hence applicable to itself. If this statement applies to itself, and if it is true, that is there are no silver bullets, then it is a silver bullet. Hence it disproves itself.
+
+2. But if it is a silver bullet, then it is no longer true, hence there are no silver bullets. Hence it proves itself.
+
+3. If there are no silver bullets, then this statement is true, which means it is a silver bullet.
+
+We can go on infinitely unless we put a check to stop at some point. We can stop at a point most convenient to us. So if we are disproving this statement, we stop at step 1. If we are proving this statement, we stop at statement 2. Or if we keep on going until our subject is confused enough to lose track of the insanity and we stop at the most convenient point to us then.
+
+Congratulations! You just learned how to work with infinite sequences.

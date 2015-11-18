@@ -4,7 +4,7 @@
   "description": "Recene: The static site generator",
   "main": "dist/index.js",
   "scripts": {
-    "build": "bable -d ./src ./dist",
+    "build": "babel -d ./src ./dist",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

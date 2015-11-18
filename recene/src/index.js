@@ -36,21 +36,24 @@ import {
  * - [X] Create index page
  */
 
-let filenames_,
-    filecontents_,
-    finalHtml_,
+let filecontents_,
+    filenames_,
+    finalIndexHtml_,
+    finalPostHtml_,
     globalConfig,
-    indexPage_,
+    indexWriteOps_,
     mkdirp_,
     ncp_,
+    postWriteOps_,
     postsDir,
+    prepOps_,
     publicDir,
-    readdir_,
     readFile_,
+    readdir_,
     rimraf_,
     themeDir,
-    writeFile_,
-    writeOps_;
+    themePartials_,
+    writeFile_;
 
 globalConfig = require(path.resolve('./config')).default;
 postsDir = path.resolve('./_posts');
@@ -99,16 +102,31 @@ filecontents_ = filenames_
             config,
             content: marked(content),
         };
-    });
+    })
+    .share();
 
-finalHtml_ = Observable
-    .combineLatest(
+themePartials_ = Observable
+    .zip(
         readFile_(path.resolve(themeDir, './layouts/header.html'), 'utf-8'),
         readFile_(path.resolve(themeDir, './layouts/footer.html'), 'utf-8'),
         readFile_(path.resolve(themeDir, './layouts/post.html'), 'utf-8'),
         readFile_(path.resolve(themeDir, './layouts/default.html'), 'utf-8'),
-        filecontents_,
-        (header, footer, post, defaultLayout, {config, content}) => {
+        readFile_(path.resolve(themeDir, './layouts/index.html'), 'utf-8'),
+        (header, footer, post, defaultLayout, indexLayout) => {
+            return {
+                header,
+                footer,
+                defaultLayout,
+                post,
+                indexLayout,
+            };
+        }
+    );
+
+finalPostHtml_ = filecontents_
+    .combineLatest(
+        themePartials_,
+        ({config, content}, {header, footer, post, defaultLayout}) => {
             header = render(header, config);
             footer = render(footer, config);
             post = render(post, {
@@ -125,27 +143,7 @@ finalHtml_ = Observable
         }
     );
 
-writeOps_ = Observable
-    .concat(
-        Observable.defer(() => rimraf_(publicDir)),
-        Observable.defer(() => mkdirp_(publicDir)),
-        Observable.defer(() => ncp_(path.resolve(themeDir, './css'), path.resolve(publicDir, './css'))),
-        finalHtml_
-    )
-    .skip(3)
-    .flatMap(({config, content}) => {
-        let filepath,
-            categoryPath;
-
-        categoryPath = path.resolve(publicDir, (config.category || 'uncategorized'));
-        filepath = path.resolve(categoryPath, `${config.slug}.html`);
-
-        return mkdirp_(categoryPath)
-            .flatMap(() => writeFile_(filepath, content, 'utf-8'));
-    });
-
-
-indexPage_ = filecontents_
+finalIndexHtml_ = filecontents_
     .reduce((acc, {config}) => {
         let postLink;
 
@@ -156,14 +154,16 @@ indexPage_ = filecontents_
                 link: postLink,
                 ...config,
             },
-        ]);
+        ]).sort((p1, p2) => {
+            let [y1, m1, d1] = p1.date.split('-'),
+                [y2, m2, d2] = p2.date.split('-');
+
+            return y1 - y2 || m1 - m2 || d1 - d2;
+        });
     }, [])
     .combineLatest(
-        readFile_(path.resolve(themeDir, './layouts/header.html'), 'utf-8'),
-        readFile_(path.resolve(themeDir, './layouts/footer.html'), 'utf-8'),
-        readFile_(path.resolve(themeDir, './layouts/index.html'), 'utf-8'),
-        readFile_(path.resolve(themeDir, './layouts/default.html'), 'utf-8'),
-        (posts, header, footer, indexLayout, defaultLayout) => {
+        themePartials_,
+        (posts, {header, footer, indexLayout, defaultLayout}) => {
             header = render(header, globalConfig);
             footer = render(footer, globalConfig);
             indexLayout = render(indexLayout, {
@@ -176,7 +176,27 @@ indexPage_ = filecontents_
                 content: render(defaultLayout, {content: indexLayout}),
             };
         }
-    )
+    );
+
+prepOps_ = rimraf_(publicDir)
+    .flatMap(() => mkdirp_(publicDir))
+    .flatMap(() => ncp_(path.resolve(themeDir, './css'), path.resolve(publicDir, './css')));
+
+postWriteOps_ = prepOps_
+    .flatMap(() => finalPostHtml_)
+    .flatMap(({config, content}) => {
+        let categoryPath,
+            filepath;
+
+        categoryPath = path.resolve(publicDir, (config.category || 'uncategorized'));
+        filepath = path.resolve(categoryPath, `${config.slug}.html`);
+
+        return mkdirp_(categoryPath)
+            .flatMap(() => writeFile_(filepath, content, 'utf-8'));
+    });
+
+indexWriteOps_ = prepOps_
+    .flatMap(() => finalIndexHtml_)
     .flatMap(({content}) => {
         let indexFilepath;
 
@@ -185,10 +205,16 @@ indexPage_ = filecontents_
         return writeFile_(indexFilepath, content, 'utf-8');
     });
 
-writeOps_
-    .concat(indexPage_)
+postWriteOps_
     .subscribe(
         () => {},
         (err) => console.error('Error somewhere in the chain', err),
         () => console.log('Done generating the site!')
+    );
+
+indexWriteOps_
+    .subscribe(
+        () => {},
+        (err) => console.error('Error while writing index page', err),
+        () => console.log('Wrote index page!')
     );

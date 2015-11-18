@@ -1,1 +1,1 @@
-console.log("Yo! Wanna build your own shitty static site generator? Let's do it");
+console.log("Yo! Wanna build your own static site generator? Let's do it");

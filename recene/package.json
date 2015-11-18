@@ -2,10 +2,8 @@
   "name": "recene",
   "version": "0.1.0",
   "description": "Recene: The static site generator",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "babel -d ./src ./dist",
-    "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

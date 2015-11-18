@@ -31,7 +31,6 @@
 
 - A slightly open mind. Few centimeters would do
 
-- Acceptance of mild profanity
 
 ** Seting up your machine
 - Clone this repository on your machine

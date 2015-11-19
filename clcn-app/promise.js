@@ -55,7 +55,7 @@ startGettingInspired = () => {
 
 stopGettingInspired = (interval) => (e) => {
     e.preventDefault();
-    stopButton.removeEventListener(stopGettingInspired(interval));
+    stopButton.removeEventListener('click', stopGettingInspired(interval));
 
     clearInterval(interval);
 };

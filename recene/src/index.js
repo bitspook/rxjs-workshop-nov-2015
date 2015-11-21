@@ -180,7 +180,8 @@ finalIndexHtml_ = filecontents_
 
 prepOps_ = rimraf_(publicDir)
     .flatMap(() => mkdirp_(publicDir))
-    .flatMap(() => ncp_(path.resolve(themeDir, './css'), path.resolve(publicDir, './css')));
+    .flatMap(() => ncp_(path.resolve(themeDir, './css'), path.resolve(publicDir, './css')))
+    .share();
 
 postWriteOps_ = prepOps_
     .flatMap(() => finalPostHtml_)
